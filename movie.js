@@ -1,14 +1,10 @@
 
-//const token = './key.json';
-
 const banner = document.querySelector('#banner');
 const game = document.querySelector('#game');
 const more = document.querySelector('#more');
 
 let page = 1;
 const titleMovie = [];
-
-const link = 'https://image.tmdb.org/t/p/w500/';
 
 more.addEventListener('click', async () => {
   page += 1;
@@ -21,15 +17,13 @@ async function movie() {
     method: 'get',
     headers: {
       "Content-Type": "application/json",
-      //Authorization: "Bearer " + token,
+      Authorization: "Bearer " + secret[0],
     }
   })
 
   const response = await findMovie.json();
 
   response.results.map((item) => {
-
-    //console.log(item)
 
     const movie = document.createElement('div');
     movie.classList.add('movie');
@@ -41,12 +35,10 @@ async function movie() {
     const title = document.createElement('h5');
     title.innerText = 'Filme'
 
-    // clicar na imagem
     movie.addEventListener('click', () => {
 
       const id = movie.getAttribute('id');
       const img = document.querySelector(`#${id} img`).src;
-      //console.log(img.src)
 
       const closeGame = document.createElement('div');
       closeGame.innerText = 'X';
@@ -71,8 +63,6 @@ async function movie() {
       const option = document.createElement('div');
       option.classList.add('option');
 
-
-
       for (let i = 0; i < item.title.length; i++) {
 
         const lyricInput = document.createElement('input');
@@ -81,15 +71,12 @@ async function movie() {
         if (item.title[i] === " ") {
 
           lyricInput.setAttribute('style', ' border: none; width: 8px; background: transparent;');
-          //console.log(lyricInput.getAttribute('id'));
 
         } else if (item.title[i] === ":" || item.title[i] === "!") {
           lyricInput.setAttribute('style', 'display: none;');
         } else {
           lyricInput.setAttribute('id', item.title[i].toUpperCase() + i);
         }
-
-
 
         lyricInput.addEventListener('keyup', () => {
           const lyricInputId = lyricInput.getAttribute('id');
@@ -112,7 +99,6 @@ async function movie() {
       game.appendChild(image);
       game.appendChild(option);
 
-      //console.log(movie.getAttribute('id'));
       game.setAttribute('style', 'display: flex; ');
 
     })
