@@ -1,5 +1,5 @@
 
-const token = './key.json';
+//const token = './key.json';
 
 const banner = document.querySelector('#banner');
 const game = document.querySelector('#game');
@@ -21,7 +21,7 @@ async function movie() {
     method: 'get',
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
+      //Authorization: "Bearer " + token,
     }
   })
 
