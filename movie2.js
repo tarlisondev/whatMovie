@@ -92,7 +92,8 @@ const pageGame = async (img, title) => {
   const lyric = document.createElement('input');
   lyric.setAttribute("type", "text");
 
-  lyric.addEventListener("keyup", ({ key }) => {
+  lyric.addEventListener("input", ({ data }) => {
+    console.log(data)
 
     const options = document.querySelectorAll(`.field`);
 
@@ -100,10 +101,10 @@ const pageGame = async (img, title) => {
 
       const lyric = item.getAttribute("id").split("")[0];
 
-      if (lyric === key.toUpperCase()) {
+      if (lyric === data.toUpperCase()) {
 
         const fields = document.querySelector(`#${item.getAttribute("id")}`);
-        fields.innerHTML = key.toUpperCase();
+        fields.innerHTML = data.toUpperCase();
 
       }
     })
