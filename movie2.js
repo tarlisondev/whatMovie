@@ -4,9 +4,11 @@ const game = document.querySelector("#game");
 const banner = document.querySelector("#banner");
 
 const url = "https://image.tmdb.org/t/p/w500/";
-//const secretKeyApi = "ADICIONE SEU TOKEN DO TMDB";
+//const secretKeyApi = "COLOQUE SEU TOKEN DO TMDB";
 
 let page = 1;
+let count = 0;
+let countField = 0;
 const listLyric = [];
 
 const nextPage = async () => {
@@ -38,16 +40,17 @@ const pageMain = async (results) => {
   results.map(async (product) => {
 
     const movie = document.createElement('div');
+    movie.setAttribute("id", 'A' + product.id);
     movie.classList.add('movie');
 
     const image = document.createElement('img');
     image.src = `${url + product.backdrop_path}`;
 
     const title = document.createElement('p');
-    title.innerText = 'Movie ' + product.title;
+    title.innerText = 'Movie';
 
     movie.addEventListener("click", async () => {
-      await pageGame(product.backdrop_path, product.title)
+      await pageGame(product.backdrop_path, product.title, 'A' + product.id);
     });
 
     movie.appendChild(image);
@@ -57,7 +60,7 @@ const pageMain = async (results) => {
   })
 }
 
-const pageGame = async (img, title) => {
+const pageGame = async (img, title, id) => {
 
   const image = document.createElement("img");
   image.src = url + img;
@@ -81,6 +84,7 @@ const pageGame = async (img, title) => {
 
     } else {
 
+      countField += 1;
       const field = document.createElement('div');
       field.classList.add("field");
       field.setAttribute("id", 'A' + title[i].toUpperCase() + i);
@@ -92,21 +96,37 @@ const pageGame = async (img, title) => {
   const lyric = document.createElement('input');
   lyric.setAttribute("type", "text");
 
-  lyric.addEventListener("input", ({ data }) => {
+  lyric.addEventListener("input", async ({ data }) => {
 
     const options = document.querySelectorAll(`.field`);
 
-    options.forEach((item) => {
+    options.forEach((text) => {
+      if (text.textContent) {
 
-      const lyric = item.getAttribute("id").split("")[1];
+        if (text.textContent === data.toUpperCase()) {
+          return console.log("Lyric Repeat");
+        }
 
-      if (lyric === data.toUpperCase()) {
+      } else {
 
-        const fields = document.querySelector(`#${item.getAttribute("id")}`);
-        fields.innerHTML = data.toUpperCase();
+        const lyric = text.getAttribute("id").split("")[1];
 
+        if (lyric === data.toUpperCase()) {
+          count += 1;
+          const fields = document.querySelector(`#${text.getAttribute("id")}`);
+          fields.innerHTML = data.toUpperCase();
+
+        }
       }
+
     })
+
+    if (count === countField) {
+      const nameTitle = document.querySelector(`#${id} p`);
+      nameTitle.innerHTML = title + ' ✔️';
+      return;
+    }
+
   })
 
   const close = document.createElement('button');
@@ -118,7 +138,6 @@ const pageGame = async (img, title) => {
     game.style.display = 'none';
   })
 
-
   game.appendChild(image);
   game.appendChild(option);
   game.appendChild(lyric);
@@ -129,9 +148,7 @@ const pageGame = async (img, title) => {
 };
 
 const compareLyric = (item) => {
-
-  console.log(item);
-
+  //console.log(item);
 }
 
 more.addEventListener('click', nextPage);
