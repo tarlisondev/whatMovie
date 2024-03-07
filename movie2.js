@@ -4,7 +4,7 @@ const game = document.querySelector("#game");
 const banner = document.querySelector("#banner");
 
 const url = "https://image.tmdb.org/t/p/w500/";
-const secretKeyApi = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0Y2Y4ODFjMjBkMTNhNTQ1ZWVlZGVkNjNhODIzNGU5YSIsInN1YiI6IjY1MzU0NTNmYzE0ZmVlMDBjNmVlMzk2ZiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.7xRogEg3YszQi2L6IPPjgzmmNQ2Vuk8oLiFMrJfdPMg";
+//const secretKeyApi = "ADICIONE SEU TOKEN DO TMDB";
 
 let page = 1;
 const listLyric = [];
@@ -44,7 +44,7 @@ const pageMain = async (results) => {
     image.src = `${url + product.backdrop_path}`;
 
     const title = document.createElement('p');
-    title.innerText = 'Movie';
+    title.innerText = 'Movie ' + product.title;
 
     movie.addEventListener("click", async () => {
       await pageGame(product.backdrop_path, product.title)
@@ -73,7 +73,7 @@ const pageGame = async (img, title) => {
       field.setAttribute("style", "width: 10px; border: none; background: transparent;");
       option.appendChild(field);
 
-    } else if (title[i] === ":" || title[i] === "!") {
+    } else if (title[i] === ":" || title[i] === "!" || title[i] === "' '-' '" || title[i] === "-" || title[i] === "'") {
 
       const field = document.createElement('div');
       field.setAttribute("style", "display: none;");
@@ -83,7 +83,7 @@ const pageGame = async (img, title) => {
 
       const field = document.createElement('div');
       field.classList.add("field");
-      field.setAttribute("id", title[i].toUpperCase() + i);
+      field.setAttribute("id", 'A' + title[i].toUpperCase() + i);
       option.appendChild(field);
 
     }
@@ -93,13 +93,12 @@ const pageGame = async (img, title) => {
   lyric.setAttribute("type", "text");
 
   lyric.addEventListener("input", ({ data }) => {
-    console.log(data)
 
     const options = document.querySelectorAll(`.field`);
 
     options.forEach((item) => {
 
-      const lyric = item.getAttribute("id").split("")[0];
+      const lyric = item.getAttribute("id").split("")[1];
 
       if (lyric === data.toUpperCase()) {
 
