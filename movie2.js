@@ -70,7 +70,7 @@ const pageGame = async (img, title) => {
     if (title[i] === " ") {
 
       const field = document.createElement('div');
-      field.setAttribute("style", "width: 15px; border: none; background: transparent;");
+      field.setAttribute("style", "width: 10px; border: none; background: transparent;");
       option.appendChild(field);
 
     } else if (title[i] === ":" || title[i] === "!") {
